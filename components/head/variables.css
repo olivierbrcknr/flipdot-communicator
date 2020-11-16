@@ -1,0 +1,13 @@
+:root {
+  /* Typography */
+  --font-family-reg: sans-serif;
+  --font-family-mono: monospace;
+
+  /* Colors */
+  --color-white: #F7FAFC;
+  --color-black: #061424;
+
+  /* Sizes */
+  --grid-unit: 10px;
+  --max-width: 1200px;
+}

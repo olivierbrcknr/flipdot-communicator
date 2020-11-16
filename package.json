@@ -1,0 +1,24 @@
+{
+  "name": "distant-socializing",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@svgr/webpack": "^5.4.0",
+    "@zeit/next-css": "^1.0.1",
+    "firebase": "^7.14.5",
+    "next": "^9.4.2",
+    "react": "^16.13.1",
+    "react-dom": "16.13.1",
+    "webpack": "^4.43.0"
+  },
+  "devDependencies": {
+    "file-loader": "^6.0.0",
+    "raw-loader": "^4.0.1",
+    "url-loader": "^4.1.0"
+  }
+}
