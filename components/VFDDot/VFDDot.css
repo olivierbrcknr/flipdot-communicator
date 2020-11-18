@@ -1,0 +1,27 @@
+.VFDDot {
+  background: var(--color-flipDot-black);
+  width: 20px;
+  height: 20px;
+  border-radius: 1000px;
+  position: absolute;
+}
+
+.VFDDot.--isFlipped {
+  background: var(--color-flipDot-reg);
+}
+
+.VFDDot-Stopper {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  border-radius: 1000px;
+  background: var(--color-flipDot-case);
+  bottom: 0;
+  right: 0;
+}
+.VFDDot.--isFlipped .VFDDot-Stopper {
+  top: 0;
+  left: 0;
+  bottom: initial;
+  right: initial;
+}

@@ -1,16 +1,36 @@
-# Distant Socializing
+# Flip Dot Communicator — Distant Socializing
 
 
-This is a [next.js](https://nextjs.org/) repository.
 
-Visit this link to see it in action: http://little-big-printer-messenger-git.olivierbrcknr.now.sh/
+## The UI
+
+The website is split into to halves: The left side is the *Main UI* which is meant as the *input* of the communication. The right side is the *Virtual Flip Dot*, which is a virtual representation of the hardware to test the interaction.
+
+### Main UI
+
+#### Input Commands
+
+##### Send Hello
+
+A little "hello world" example, sending one simple interaction to the communicator to display
 
 
+#### Selection Toggle
+
+- *physical* – Sends your message to all website instances and the hardware prototype
+- *virtual* — Sends your message to all website instances
+- *test* — Sends your message just to your website instance
+
+### Virtual Flip Dot
 
 
 ## Development
 
-Run
+This is a [next.js](https://nextjs.org/) repository using [yarn](https://yarnpkg.com/). Download it, open it in your terminal and hit `yarn install`.
+
+### Testing
+
+Open the repository in the terminal. Run the following command to run the development server, which should open at [http://localhost:3000/](http://localhost:3000/).
 
 ```sh
 yarn dev

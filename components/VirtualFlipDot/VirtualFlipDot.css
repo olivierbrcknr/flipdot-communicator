@@ -1,0 +1,22 @@
+.VirtualFlipDot {
+  background: var(--color-flipDot-case);
+}
+
+.VirtualFlipDot-Matrix {
+
+}
+
+.VirtualFlipDot-Button {
+  position: absolute;
+  border: solid 2px var(--color-flipDot-black);
+  border-radius: 1000px;
+}
+
+.VirtualFlipDot-Cable {
+  position: absolute;
+  top: 100%;
+  left: 40px;
+  width: 10px;
+  background: var(--color-flipDot-black);
+  height: 100vh;
+}

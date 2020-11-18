@@ -1,11 +1,20 @@
 :root {
   /* Typography */
   --font-family-reg: sans-serif;
-  --font-family-mono: monospace;
+  --font-family-mono: 'Space Mono', monospace;
 
   /* Colors */
-  --color-white: #F7FAFC;
-  --color-black: #061424;
+  --color-white: #FFF;
+  --color-black: #000;
+
+
+  /* FlipDotColors */
+  --color-flipDot-black: var(--color-black);
+  --color-flipDot-case: #1B1B1B;
+
+  --color-flipDot-reg: #F2F03F;
+  --color-flipDot-light: #FDFB61;
+  --color-flipDot-dark: #DDDB1F;
 
   /* Sizes */
   --grid-unit: 10px;

@@ -1,0 +1,22 @@
+.Tag {
+  border-radius: 3px;
+  font-size: var(--font-size-small);
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: var(--color-green);
+  padding: 0px 5px;
+  display: inline-block;
+}
+
+
+.Tag--new {
+  background: var(--color-green);
+}
+
+.Tag--premium {
+  background: var(--color-brand-medium);
+}
+
+.Tag--beta {
+  background: var(--color-green);
+}

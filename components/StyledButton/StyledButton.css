@@ -1,0 +1,13 @@
+.StyledButton {
+  display: flex;
+  padding: 0.5em 1em;
+  border: solid 2px var(--color-black);
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.StyledButton:active {
+  background: var(--color-black);
+  color: var(--color-flipDot-reg);
+}
