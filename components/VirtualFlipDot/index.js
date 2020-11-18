@@ -2,22 +2,41 @@ import React, { useEffect, useState } from 'react';
 import useSound from 'use-sound';
 
 import VFDDot from '../VFDDot'
+import { startupAnimation, sweepAnimation } from './matrixAnimations.js'
 
 import './VirtualFlipDot.css';
 
 // source https://freesound.org/people/joedeshon/sounds/119415/
 import flipSoundFile from './flip.mp3'
 
+const columns = 10;
+const rows = 7;
+
 const VirtualFlipDot = (props) => {
 
   const [vfdState, setVfdState] = useState({
-
+    message: {
+      type: 'StartUp',
+      content: false,
+    },
+    matrix: new Array(columns*rows).fill(false),
+    isAnimating: false,
+    queue: []
   });
 
   useEffect(()=>{
-    console.log('is flipping')
-    flipSound();
-  },[])
+    if( props.comState.isNewMessage ){
+      setVfdState({
+        ...vfdState,
+        message: props.comState.message
+      });
+    }
+  },[props.comState])
+
+  useEffect(()=>{
+    console.log('new message')
+    playAnimation( vfdState.message.type, vfdState.message.content );
+  },[vfdState.message])
 
   let classes = ["VirtualFlipDot"];
 
@@ -30,24 +49,52 @@ const VirtualFlipDot = (props) => {
 
   let buttonClick = () => {
     console.log('button clicked');
-    flipSound();
+  }
+
+  // callback function for animations
+  let setMatrix = ( mtrx , isDone ) => {
+    let newMatrix = vfdState.matrix;
+    let isAnimating = true;
+    if( mtrx ){
+      newMatrix = mtrx;
+      flipSound();
+    }
+    if( isDone ){
+      isAnimating = false;
+    }
+    setVfdState({
+      ...vfdState,
+      matrix: newMatrix,
+      isAnimating: isAnimating
+    });
+  }
+
+  let playAnimation = ( type, msg ) => {
+    if( !vfdState.isAnimating ){
+      let animationStarting = false;
+      switch( type ){
+        case 'hello':
+          sweepAnimation(setMatrix);
+          animationStarting = true;
+          break;
+      }
+    }
   }
 
   let dots = [];
-  for( let x = 0; x < 10; x++ ){
-    for (let y = 0; y < 7; y++){
+  for ( let y = 0; y < rows; y++ ){
+    for( let x = 0; x < columns; x++ ){
 
-      const array = [true,false];
-       const randomElement = array[Math.floor(Math.random() * array.length)];
-
+      let i = x + y*columns;
+      let isFlipped = vfdState.matrix[i];
       let dot = <VFDDot
         size={dotSize}
         key={'FlipDot-'+x+'-'+y}
         passKey={'FlipDot-'+x+'-'+y}
         x={x}
         y={y}
-        isFlipped={randomElement} />
-      dots.push(dot)
+        isFlipped={isFlipped} />
+      dots.push(dot);
     }
   }
 

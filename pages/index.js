@@ -18,12 +18,49 @@ const Home = () => {
 
   const [comState,setComState] = useState({
     sendType: 'virtual',
-    showFlipDot: true
+    showFlipDot: true,
+    message: {
+      type: 'StartUp',
+      content: false,
+    },
+    isNewMessage: false
   });
 
   let classes = [];
 
-  console.log()
+  let sendMessage = (type,msg) => {
+
+    let msgType = false;
+    let msgContent = false;
+
+    switch (type){
+      case 'hello':
+        msgType = 'hello';
+        break;
+      default:
+        console.log('Sorry, I did not understand that').
+        break;
+    }
+
+    setComState({
+      ...comState,
+      message: {
+        type: msgType,
+        content: msgContent
+      },
+      isNewMessage: true
+    })
+  }
+
+  useEffect(()=>{
+    if( comState.isNewMessage ){
+      // set isNewMessage to false again
+      setComState({
+        ...comState,
+        isNewMessage: false
+      })
+    }
+  }, [comState])
 
   return (
     <div className={classes.join(' ')}>
@@ -37,8 +74,8 @@ const Home = () => {
           <div className="InterfaceContainer">
 
             <div className="InterfaceContainer-MainUI">
-              <StyledButton>
-                Send "Hello"
+              <StyledButton onClick={ ()=>{ sendMessage('hello'); } }>
+                Send "Hello World"
               </StyledButton>
             </div>
 

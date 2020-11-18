@@ -7,7 +7,7 @@ const StyledButton = (props) => {
   let classes = ["StyledButton"];
 
   return(
-    <div className={classes.join(' ')}>
+    <div className={classes.join(' ')} onClick={props.onClick}>
       {props.children}
     </div>
   )

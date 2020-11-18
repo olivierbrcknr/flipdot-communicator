@@ -26,6 +26,10 @@ A little "hello world" example, sending one simple interaction to the communicat
 
 ## Development
 
+![Architecture](docs/SoftwareArchitecture.svg)
+
+### Setup
+
 This is a [next.js](https://nextjs.org/) repository using [yarn](https://yarnpkg.com/). Download it, open it in your terminal and hit `yarn install`.
 
 ### Testing
