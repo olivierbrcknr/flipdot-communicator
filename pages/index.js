@@ -5,8 +5,8 @@ import React, { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 
 // Components
-import Head from '../components/Head'
-import Footer from '../components/Footer'
+import Head from '../components/head'
+import Footer from '../components/footer'
 import VirtualFlipDot from '../components/VirtualFlipDot'
 
 import Toggle from '../components/Toggle'
@@ -97,6 +97,8 @@ const Home = () => {
             <div className="InterfaceContainer-Title">
               Flip Dot Communicator ———— Distant Socializing
             </div>
+
+            <Footer />
 
           </div>
           <div className="FlipDotContainer">
