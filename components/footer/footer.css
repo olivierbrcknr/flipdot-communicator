@@ -1,6 +1,11 @@
 footer {
   position: absolute;
   bottom: 10px;
-  left: 10px;
-  font-size: 11px;
+  right: 10px;
+  font-size: 9px;
+  color: rgba(0,0,0,0.3);
+}
+
+footer a:hover {
+  color: var(--color-black);
 }

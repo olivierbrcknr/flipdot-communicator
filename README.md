@@ -1,6 +1,8 @@
 # Flip Dot Communicator — Distant Socializing
 
+## Build your own
 
+Find the instructions to build your own hardware prototype in this file → [Hardware-Instructions.md](Hardware-Instructions.md)
 
 ## The UI
 

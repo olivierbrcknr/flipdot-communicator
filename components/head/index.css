@@ -8,6 +8,7 @@ body {
   color: var(--color-black);
   font-size: 14px;
   user-select: none;
+  font-feature-settings: "case", "calt", "liga";
 }
 a {
   color: inherit;

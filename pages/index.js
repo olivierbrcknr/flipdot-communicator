@@ -98,7 +98,7 @@ const Home = () => {
               Flip Dot Communicator ———— Distant Socializing
             </div>
 
-            <Footer />
+
 
           </div>
           <div className="FlipDotContainer">
@@ -106,6 +106,8 @@ const Home = () => {
               comState={comState} />
           </div>
         </div>
+
+        <Footer />
 
       </div>
 
