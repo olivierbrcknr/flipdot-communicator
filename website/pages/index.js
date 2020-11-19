@@ -14,10 +14,28 @@ import StyledButton from '../components/StyledButton'
 
 // import {messagesDB,firestore} from '../components/utils/firestore'
 
+const typeSelectorOptions = [
+  {
+    val: 'physical',
+    isSelectable: false,
+    description: 'Sends your message to all website instances and the hardware prototype'
+  },
+  {
+    val: 'virtual',
+    isSelectable: true,
+    description: 'Sends your message to all website instances'
+  },
+  {
+    val: 'test',
+    isSelectable: true,
+    description: 'Sends your message just to your website instance'
+  }
+]
+
 const Home = () => {
 
   const [comState,setComState] = useState({
-    sendType: 'virtual',
+    sendType: 2,
     showFlipDot: true,
     message: {
       type: 'StartUp',
@@ -81,17 +99,13 @@ const Home = () => {
 
             <div className="InterfaceContainer-TypeToggle">
               <Toggle
-                options={['physical','virtual','test']}
-                value={comState.sendType}
+                options={typeSelectorOptions}
+                value={typeSelectorOptions[comState.sendType].val}
+                displayDescriptions
                 callback={ (val) => setComState({
                   ...comState,
                   sendType: val
                 }) } />
-              {/*<div className="description">
-                physical – Sends your message to all website instances and the hardware prototype<br/>
-                virtual — Sends your message to all website instances<br/>
-                test — Sends your message just to your website instance
-              </div>*/}
             </div>
 
             <div className="InterfaceContainer-Title">

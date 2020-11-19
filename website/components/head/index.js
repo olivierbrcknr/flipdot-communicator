@@ -18,13 +18,7 @@ const Head = props => {
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
 
-
-      {/*
-        <link rel="icon" sizes="192x192" href="/touch-icon.png" />
-        <link rel="apple-touch-icon" href="/touch-icon.png" />
-        <link rel="mask-icon" href={favIcon} color="#000000" />
-        <link rel="icon" href={favIcon} />
-      */}
+      <link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="/favicon.ico" />
 
     </NextHead>
   )

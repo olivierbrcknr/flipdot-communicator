@@ -3,7 +3,7 @@ footer {
   bottom: 10px;
   right: 10px;
   font-size: 9px;
-  color: rgba(0,0,0,0.3);
+  color: var(--color-text-disabled);
 }
 
 footer a:hover {

@@ -6,7 +6,7 @@
   /* Colors */
   --color-white: #FFF;
   --color-black: #000;
-
+  --color-text-disabled: rgba(0,0,0,0.3);
 
   /* FlipDotColors */
   --color-flipDot-black: var(--color-black);

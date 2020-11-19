@@ -1,0 +1,40 @@
+.Toggle {
+
+}
+
+.Toggle ul {
+  display: flex;
+  padding: 2px;
+  border: solid 2px var(--color-black);
+  border-radius: 1000px;
+}
+
+.Toggle ul li {
+  padding: 6px 12px;
+  border-radius: 1000px;
+  cursor: pointer;
+}
+.Toggle ul li.--isActive {
+  background: var(--color-black);
+  color: var(--color-flipDot-reg);
+}
+.Toggle ul li.--isDisabled {
+  color: var(--color-text-disabled);
+}
+
+
+.Toggle-Description {
+  font-size: 11px;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+  color: var(--color-text-disabled);
+  text-align: right;
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: none;
+}
+
+.Toggle-Description.--isHovering {
+  display: block;
+}

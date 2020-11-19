@@ -1,16 +1,16 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+*/node_modules
 
 # testing
-/coverage
+*/coverage
 
 # production
-/build
-/dist
-/.next
-/out
+*/build
+*/dist
+*/.next
+*/out
 
 # misc
 *.DS_Store
@@ -19,7 +19,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment Variables
-.env
-.env.build
+*.env
+*.env.build
 
-.vercel
+*.vercel
