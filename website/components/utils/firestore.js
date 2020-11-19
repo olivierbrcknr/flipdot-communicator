@@ -24,7 +24,6 @@ if (!firebase.apps.length) {
   messagesDB = firestore.collection('DistantSocializing');
 
   console.log('🔥 Firebase initialised')
-
 }
 
 

@@ -10,6 +10,19 @@
   position: absolute;
   border: solid 2px var(--color-flipDot-black);
   border-radius: 1000px;
+  cursor: pointer;
+}
+.VirtualFlipDot-Button:active {
+  background: var(--color-flipDot-black);
+}
+.VirtualFlipDot-Button-Arrow {
+  position: absolute;
+  top: 50%;
+  left: calc( 100% + 10px );
+  transform: translateY(-50%);
+  width: 200px;
+  font-size: 20px;
+  color: #FFF;
 }
 
 .VirtualFlipDot-Cable {

@@ -12,7 +12,7 @@ import VirtualFlipDot from '../components/VirtualFlipDot'
 import Toggle from '../components/Toggle'
 import StyledButton from '../components/StyledButton'
 
-// import {messagesDB,firestore} from '../components/utils/firestore'
+import {messagesDB,firestore} from '../components/utils/firestore'
 
 const typeSelectorOptions = [
   {
@@ -76,7 +76,21 @@ const Home = () => {
       setComState({
         ...comState,
         isNewMessage: false
-      })
+      });
+
+      let prototypeVariant = typeSelectorOptions[comState.sendType].val;
+
+      // send message to DB only if needs to be send
+      if( prototypeVariant === 'virtual' || prototypeVariant === 'physical' ){
+        messagesDB.add({
+          Date: new Date(),
+          forType: prototypeVariant,
+          isRead: false,
+          ...comState.message
+        }).then(ref => {
+          console.log(`✉️ Sent message ${comState.message.type} with ID: ${ref.id}`);
+        });
+      }
     }
   }, [comState])
 
