@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useSound from 'use-sound';
 
 import VFDDot from '../VFDDot'
-import { startupAnimation, sweepAnimation, displayQueue } from './matrixAnimations.js'
+import { startupAnimation, sweepAnimation, displayQueue, displayIcon, iconAnimation } from './matrixAnimations.js'
 
 import styles from './VirtualFlipDot.module.css';
 
@@ -144,6 +144,14 @@ const VirtualFlipDot = (props) => {
       switch( type ){
         case 'hello':
           sweepAnimation(setMatrix);
+          animationStarting = true;
+          break;
+        case 'icon':
+          displayIcon( setMatrix, msg );
+          animationStarting = true;
+          break;
+        case 'animation':
+          iconAnimation( setMatrix, msg );
           animationStarting = true;
           break;
       }

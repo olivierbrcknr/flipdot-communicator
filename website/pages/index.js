@@ -48,26 +48,30 @@ const Home = () => {
 
   let sendMessage = (type,msg) => {
 
-    let msgType = false;
-    let msgContent = false;
+    let msgType = type; //false;
+    let msgContent = (msg ? msg : false);
 
+    /*
     switch (type){
       case 'hello':
         msgType = 'hello';
         break;
       default:
-        console.log('Sorry, I did not understand that').
+        console.log('Sorry, I did not understand that');
         break;
     }
+    */
 
-    setComState({
-      ...comState,
-      message: {
-        type: msgType,
-        content: msgContent
-      },
-      isNewMessage: true
-    })
+    if(msgType){
+      setComState({
+        ...comState,
+        message: {
+          type: msgType,
+          content: msgContent
+        },
+        isNewMessage: true
+      })
+    }
   }
 
   useEffect(()=>{
@@ -109,6 +113,15 @@ const Home = () => {
               <StyledButton onClick={ ()=>{ sendMessage('hello'); } }>
                 Send "Hello World"
               </StyledButton>
+
+              <StyledButton onClick={ ()=>{ sendMessage('icon','cup'); } }>
+                Ask For Coffee
+              </StyledButton>
+
+              <StyledButton onClick={ ()=>{ sendMessage('animation','stars'); } }>
+                Send Stars
+              </StyledButton>
+
             </div>
 
             <div className="InterfaceContainer-TypeToggle">
@@ -125,8 +138,6 @@ const Home = () => {
             <div className="InterfaceContainer-Title">
               Flip Dot Communicator ———— Distant Socializing
             </div>
-
-
 
           </div>
           <div className="FlipDotContainer">

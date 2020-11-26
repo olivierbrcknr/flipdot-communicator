@@ -8,16 +8,36 @@ Find the instructions to build your own hardware prototype in this file → [Har
 
 The website is split into to halves: The left side is the *Main UI* which is meant as the *input* of the communication. The right side is the *Virtual Flip Dot*, which is a virtual representation of the hardware to test the interaction.
 
-### Main UI
+### Input Commands
 
-#### Input Commands
-
-##### Send Hello
+#### Send Hello
 
 A little "hello world" example, sending one simple interaction to the communicator to display
 
+#### Ask For Coffee [icon]
 
-#### Selection Toggle
+Sends over an icon that is displayed on the other matrix. A little icon could help to communicate similarly as emojis do. The icons are created in [this file](website/components/VirtualFlipDot/icons.js) in form of arrays within an object:
+
+```js
+const icons = {
+  cup: [
+    0,0,1,1,1,1,1,1,0,0,
+    0,0,1,0,0,0,0,1,1,1,
+    0,0,1,0,0,0,0,1,0,1,
+    0,0,1,0,0,0,0,1,0,1,
+    0,0,1,0,0,0,0,1,1,0,
+    0,0,1,0,0,0,0,1,0,0,
+    0,0,0,1,1,1,1,0,0,0
+  ]
+}
+```
+
+
+#### Send Stars [animation]
+
+Similarly to the icon command, this one displays an array of icons, thus displaying a small keyframe animation.
+
+### Selection Toggle
 
 - *physical* – Sends your message to all website instances and the hardware prototype
 - *virtual* — Sends your message to all website instances
@@ -25,6 +45,7 @@ A little "hello world" example, sending one simple interaction to the communicat
 
 ### Virtual Flip Dot
 
+The virtual *Flip Dot Communicator* (on the right) should behave exactly like the physical one. All interaction elements are exactly the same. The only actual input is the small button at the bottom right.
 
 ## Development
 

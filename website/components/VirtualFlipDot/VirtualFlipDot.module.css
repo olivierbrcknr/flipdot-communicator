@@ -28,7 +28,7 @@
 .VirtualFlipDotCable {
   position: absolute;
   top: 100%;
-  left: 40px;
+  right: 50px;
   width: 10px;
   background: var(--color-flipDot-black);
   height: 100vh;

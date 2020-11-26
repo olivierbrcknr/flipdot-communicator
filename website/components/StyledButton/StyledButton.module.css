@@ -11,3 +11,7 @@
   background: var(--color-black);
   color: var(--color-flipDot-reg);
 }
+
+.StyledButton + .StyledButton {
+  margin-top: var(--grid-unit);
+}
