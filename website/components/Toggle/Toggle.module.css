@@ -14,16 +14,16 @@
   border-radius: 1000px;
   cursor: pointer;
 }
-.Toggle ul li.--isActive {
+.Toggle ul li.isActive {
   background: var(--color-black);
   color: var(--color-flipDot-reg);
 }
-.Toggle ul li.--isDisabled {
+.Toggle ul li.isDisabled {
   color: var(--color-text-disabled);
 }
 
 
-.Toggle-Description {
+.ToggleDescription {
   font-size: 11px;
   margin-top: 0.5rem;
   line-height: 1.4;
@@ -35,6 +35,6 @@
   display: none;
 }
 
-.Toggle-Description.--isHovering {
+.ToggleDescription.isHovering {
   display: block;
 }

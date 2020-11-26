@@ -1,4 +1,4 @@
-footer {
+footer.Footer {
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -6,6 +6,6 @@ footer {
   color: var(--color-text-disabled);
 }
 
-footer a:hover {
+footer.Footer a:hover {
   color: var(--color-black);
 }

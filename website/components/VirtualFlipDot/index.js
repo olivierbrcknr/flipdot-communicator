@@ -4,7 +4,7 @@ import useSound from 'use-sound';
 import VFDDot from '../VFDDot'
 import { startupAnimation, sweepAnimation, displayQueue } from './matrixAnimations.js'
 
-import './VirtualFlipDot.css';
+import styles from './VirtualFlipDot.module.css';
 
 // source https://freesound.org/people/joedeshon/sounds/119415/
 import flipSoundFile from './flip.mp3'
@@ -90,13 +90,13 @@ const VirtualFlipDot = (props) => {
     flipSound();
   },[vfdState.matrix])
 
-  let classes = ["VirtualFlipDot"];
+  let classes = [styles.VirtualFlipDot];
 
   const dotSize = 30;
 
   const [flipSound] = useSound(
     flipSoundFile,
-    { volume: 0.25 }
+    { volume: 0.1 }
   );
 
   let buttonClick = () => {
@@ -185,19 +185,19 @@ const VirtualFlipDot = (props) => {
   return(
     <div className={classes.join(' ')} style={styleCase}>
 
-      <div className="VirtualFlipDot-Matrix">
+      <div className={styles.VirtualFlipDotMatrix}>
         {dots}
       </div>
 
       <div
         onClick={ () => buttonClick() }
-        className="VirtualFlipDot-Button"
+        className={styles.VirtualFlipDotButton}
         style={styleButton}>
 
-        {buttonWasPressed ? null : <div className="VirtualFlipDot-Button-Arrow">← press me</div> }
+        {buttonWasPressed ? null : <div className={styles.VirtualFlipDotButtonArrow}>← press me</div> }
       </div>
 
-      <div className="VirtualFlipDot-Cable">
+      <div className={styles.VirtualFlipDotCable}>
 
       </div>
 

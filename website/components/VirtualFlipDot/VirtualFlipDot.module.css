@@ -2,20 +2,20 @@
   background: var(--color-flipDot-case);
 }
 
-.VirtualFlipDot-Matrix {
+.VirtualFlipDotMatrix {
 
 }
 
-.VirtualFlipDot-Button {
+.VirtualFlipDotButton {
   position: absolute;
   border: solid 2px var(--color-flipDot-black);
   border-radius: 1000px;
   cursor: pointer;
 }
-.VirtualFlipDot-Button:active {
+.VirtualFlipDotButton:active {
   background: var(--color-flipDot-black);
 }
-.VirtualFlipDot-Button-Arrow {
+.VirtualFlipDotButtonArrow {
   position: absolute;
   top: 50%;
   left: calc( 100% + 10px );
@@ -25,7 +25,7 @@
   color: #FFF;
 }
 
-.VirtualFlipDot-Cable {
+.VirtualFlipDotCable {
   position: absolute;
   top: 100%;
   left: 40px;

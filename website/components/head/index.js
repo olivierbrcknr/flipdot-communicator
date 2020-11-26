@@ -2,11 +2,6 @@ import React, {useState, useEffect} from 'react'
 import NextHead from 'next/head'
 import { string } from 'prop-types'
 
-// CSS
-import "./reset.css"
-import "./variables.css"
-import "./index.css"
-
 const Head = props => {
 
   return (

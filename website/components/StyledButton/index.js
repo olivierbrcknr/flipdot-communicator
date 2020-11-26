@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './StyledButton.css';
+import styles from './StyledButton.module.css';
 
 const StyledButton = (props) => {
 
-  let classes = ["StyledButton"];
+  let classes = [styles.StyledButton];
 
   return(
     <div className={classes.join(' ')} onClick={props.onClick}>

@@ -1,10 +1,10 @@
 import React, {useRef} from 'react';
 
-import './Toggle.css';
+import styles from './Toggle.module.css';
 
 const Toggle = (props) => {
 
-  let classes = ["Toggle"];
+  let classes = [styles.Toggle];
 
   let descriptions = [];
 
@@ -14,11 +14,11 @@ const Toggle = (props) => {
 
     let optionClasses = [];
     if( opt.val === props.value ){
-      optionClasses.push('--isActive');
+      optionClasses.push(styles.isActive);
     }
 
     if( !opt.isSelectable ){
-      optionClasses.push('--isDisabled');
+      optionClasses.push(styles.isDisabled);
     }
 
     let clickFn = () => {
@@ -31,12 +31,12 @@ const Toggle = (props) => {
 
     let checkHoverFn = (bool) => {
       if( bool ){
-        descRef.current.classList.add('--isHovering');
+        descRef.current.classList.add(styles.isHovering);
       }else{
-        descRef.current.classList.remove('--isHovering');
+        descRef.current.classList.remove(styles.isHovering);
       }
     }
-    let descEl = <div ref={descRef} className="Toggle-Description" key={'ToggleDescKey-'+k}>
+    let descEl = <div ref={descRef} className={styles.ToggleDescription} key={'ToggleDescKey-'+k}>
         {opt.description}
       </div>
 

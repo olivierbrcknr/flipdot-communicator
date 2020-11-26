@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 
-import './VFDDot.css';
+import styles from './VFDDot.module.css';
 
 const VFDDot = (props) => {
 
-  let classes = ["VFDDot"];
+  let classes = [styles.VFDDot];
 
   if( props.isFlipped ){
-    classes.push('--isFlipped')
+    classes.push(styles.isFlipped)
   }
 
   const size = props.size ? props.size : 20;
@@ -21,7 +21,7 @@ const VFDDot = (props) => {
 
   return(
     <div className={classes.join(' ')} style={style} key={props.passKey}>
-      <div className="VFDDot-Stopper"></div>
+      <div className={styles.VFDDotStopper}></div>
     </div>
   )
 }

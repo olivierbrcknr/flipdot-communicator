@@ -6,11 +6,11 @@
   position: absolute;
 }
 
-.VFDDot.--isFlipped {
+.VFDDot.isFlipped {
   background: var(--color-flipDot-reg);
 }
 
-.VFDDot-Stopper {
+.VFDDotStopper {
   position: absolute;
   width: 30%;
   height: 30%;
@@ -19,7 +19,7 @@
   bottom: 0;
   right: 0;
 }
-.VFDDot.--isFlipped .VFDDot-Stopper {
+.VFDDot.isFlipped .VFDDotStopper {
   top: 0;
   left: 0;
   bottom: initial;
