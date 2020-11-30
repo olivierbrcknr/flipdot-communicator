@@ -65,7 +65,7 @@ yarn dev
 
 ### Firebase Integration
 
-This project saves data to [Google's Firebase](https://firebase.google.com/). The credentials are handled within a `.env`, which should be set up like this:
+This project saves data to [Google's Firebase](https://firebase.google.com/). The credentials are handled within a `.env` file located in the website's root folder, which should be set up like this:
 
 ```env
 FIREBASE_MEASUREMENT_ID="value"
