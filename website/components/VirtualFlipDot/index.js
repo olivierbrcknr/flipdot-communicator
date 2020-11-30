@@ -9,7 +9,7 @@ import styles from './VirtualFlipDot.module.css';
 // source https://freesound.org/people/joedeshon/sounds/119415/
 import flipSoundFile from './flip.mp3'
 
-import {messagesDB} from '../utils/firestore'
+import {messagesDB,firebaseDB} from '../utils/firestore'
 
 const columns = 10;
 const rows = 7;
@@ -41,30 +41,57 @@ const VirtualFlipDot = (props) => {
 
   // init firebase listener
   useEffect( () => {
-    let observer = messagesDB.onSnapshot(snapshot => {
+    let newItems = false;
+
+    //messagesDB.once('value').then((snapshot) => {
+    messagesDB.on('value', (snapshot) => {
+      const data = snapshot.val();
       let newQueue = [];
-      snapshot.forEach(doc => {
+      for ( const x in data ){
+        const doc = data[x];
+
         // only show files that are newer than 10 minutes
-        if( doc.data().Date ){
-          let diffTime = 60*10; // 10 minutes in sec
-          let now = new Date().getTime() / 1000;
-          let prevDate = doc.data().Date.seconds;
-          if( prevDate > now-diffTime &&
-              vfdState.alreadyDisplayedIDs.indexOf(doc.id) <= -1){
+        if( doc.timeStamp ){
+          let diffTime = 60*10*1000; // 10 minutes in msec
+          let now = new Date().getTime();
+          if( doc.timeStamp > now-diffTime &&
+              vfdState.alreadyDisplayedIDs.indexOf(x) <= -1){
             let newMsg = {
-              ...doc.data(),
-              id: doc.id
+              ...doc,
+              id: x
             }
             newQueue.push(newMsg)
+          }else if( doc.forType === 'virtual' ){
+            // delete messages that are older
+            // than 10 minutes and virtual
+            firebaseDB.ref('flipMessages/'+x).remove();
           }
         }
-      });
+      }
+
       setVfdState({
         ...vfdState,
         queue: newQueue
       })
+
+      newItems = true;
     });
-  }, [] )
+
+    // better way to only listen to new elements
+    // but react useState issue (for now)
+
+    // messagesDB.on('child_added', function(message) {
+    //   if (!newItems) return;
+    //   var message = message.val();
+    //   let newQueue = vfdState.queue;
+    //   newQueue.push(message);
+    //   setVfdState({
+    //     ...vfdState,
+    //     queue: newQueue
+    //   })
+    // });
+
+  }, [] );
 
   useEffect(()=>{
     console.log('new message displaying');

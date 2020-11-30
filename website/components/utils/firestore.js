@@ -1,9 +1,7 @@
 import firebase from 'firebase/app';
-import 'firebase/firestore';
 import 'firebase/database';
 
-
-let firestore = null;
+let firebaseDB = null;
 let messagesDB = null;
 
 const config = {
@@ -20,11 +18,11 @@ const config = {
 if (!firebase.apps.length) {
 
   let firebaseApp = firebase.initializeApp(config);
-  firestore = firebaseApp.firestore()
-  messagesDB = firestore.collection('DistantSocializing');
+  firebaseDB = firebaseApp.database();
+  messagesDB = firebaseApp.database().ref('flipMessages/');
 
   console.log('🔥 Firebase initialised')
 }
 
 
-export {messagesDB,firestore};
+export {messagesDB,firebaseDB};
