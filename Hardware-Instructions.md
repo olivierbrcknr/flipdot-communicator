@@ -8,9 +8,9 @@
 - Strip board 
 - Button
 - AUX cable
-- AC/DC adapter 12V 5A[^1] 
+- AC/DC adapter 12V 5A*
 
-[^1]: I use 5A. 1.5A seemed to work, but did a lot of mistakes. I could not find a documentation specifying which is the minimum current needed.
+*I use 5A. 1.5A seemed to work, but did a lot of mistakes. I could not find a documentation specifying which is the minimum current needed.
 
 ## Assembly
 
@@ -67,10 +67,15 @@ class FlipDot_5x7_Slave : public FlipDot_5x7 {
 
 ### Flash the ESP32
 
-Then open the [`.ino`](hardware/FlipDotCommunicator/FlipDotCommunicator.ino) file. Add your credentials to the Firebase Realtime Database at the top of the sketch. The placeholders are these ones:
+Then open the [`.ino`](hardware/FlipDotCommunicator/FlipDotCommunicator.ino) file. Add your credentials to the `credentials.h` file. The placeholders are these ones:
 
 ```cpp
-// Placeholder
+#define FIREBASE_HOST "YOUR_FIREBASE_PROJECT.firebaseio.com"
+#define FIREBASE_AUTH "YOUR_FIREBASE_DATABASE_SECRET"
+#define WIFI_SSID "YOUR_WIFI_AP"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
 ```
+
+If you are not sure where to find them, this [stackoverflow question](https://stackoverflow.com/questions/37418372/firebase-where-is-my-account-secret-in-the-new-console) will help you.
 
 Finally flash it onto the board.

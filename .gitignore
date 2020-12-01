@@ -24,3 +24,4 @@ yarn-error.log*
 
 *.vercel
 sftp-config.json
+hardware/FlipDotCommunicator/myCredentials.h
