@@ -35,6 +35,7 @@ String currentType = "";
 String currentContent = "";
 String currentKey = "";
 
+int prevMessageCount = 0;
 int totalMessageCount = 0;
 
 // give space for 70 pixels in matrix
@@ -47,7 +48,7 @@ void setup() {
   Serial.begin(115200);
 
   // init Button
-  pinMode(BTN, INPUT);
+  pinMode(BTN, INPUT_PULLUP);
   
   // init WiFi
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -100,87 +101,95 @@ void loop() {
   if (millis() - sendDataPrevMillis > checkTime){
     sendDataPrevMillis = millis();
     count++;
-
-    Serial.println("------------------------------------");
-    Serial.println("Get Data...");
-    if (Firebase.get(firebaseData,  path))
-    {   
-      
-      Serial.println("------------------------------------");
-      Serial.println();
-
-      if( firebaseData.dataType() == "json" ){
-
-        FirebaseJson &json = firebaseData.jsonObject();
-        size_t len = json.iteratorBegin();
-        String key, value = "";
-        int type = 0;
-        bool isNewMessage = false;
-        totalMessageCount = 0;
-        
-        for (size_t i = 0; i < len; i++)
-        {
-          json.iteratorGet(i, type, key, value);
-
-          // save latest key to variable to remember what to play
-          if( i == 0 ){
-            currentKey = key;
-          }
-
-          // if is not the first element and a main key, do this
-          if( i > 0 && isNewMessage == false ){
-
-            // check what type the message is
-            if(key.indexOf("type") >= 0 ){
-              // Serial.println(value);
-              currentType = value;
-            }
-
-            // check what content the message has
-            if(key.indexOf("content") >= 0 ){
-              // Serial.println(value);
-              currentContent = value;
-            }
-
-            // check if new message starts
-            if(value.indexOf("{") >= 0){
-              // Serial.println("Contains a {}");
-              isNewMessage = true;
-            }
-          }
-
-          // count messages
-          if(value.indexOf("{") >= 0){
-            totalMessageCount++;
-          }
-        }
-        json.iteratorEnd();
-
-
-        Serial.println("Next Message —————————————— ");
-        Serial.println(currentKey);
-        Serial.println(currentType);
-        Serial.println(currentContent);
-        Serial.println();
-
-        Serial.print("Total Messages: ");
-        Serial.println(totalMessageCount);        
-      }
-    } else {
-      Serial.println("FAILED");
-      Serial.println("REASON: " + firebaseData.errorReason());
-      Serial.println("------------------------------------");
-      Serial.println();
-    }
-
+    prevMessageCount = totalMessageCount;
+    checkForMessages();
   }
-
-  displayQueue();
+  
+  // only update queue if is new
+  if( prevMessageCount != totalMessageCount ){
+    prevMessageCount = totalMessageCount;
+    displayQueue();
+    delay(500);
+  }
+  
 
 }
 
-void displayQueue() {
+void checkForMessages() {
+  Serial.println("------------------------------------");
+  Serial.println("Get Data...");
+  if (Firebase.get(firebaseData,  path))
+  {   
+    
+    Serial.println("------------------------------------");
+    Serial.println();
 
+    if( firebaseData.dataType() == "json" ){
+
+      FirebaseJson &json = firebaseData.jsonObject();
+      size_t len = json.iteratorBegin();
+      String key, value = "";
+      int type = 0;
+      bool isNewMessage = false;
+      totalMessageCount = 0;
+      
+      for (size_t i = 0; i < len; i++)
+      {
+        json.iteratorGet(i, type, key, value);
+
+        // save latest key to variable to remember what to play
+        if( i == 0 ){
+          currentKey = key;
+        }
+
+        // if is not the first element and a main key, do this
+        if( i > 0 && isNewMessage == false ){
+
+          // check what type the message is
+          if(key.indexOf("type") >= 0 ){
+            // Serial.println(value);
+            currentType = value;
+          }
+
+          // check what content the message has
+          if(key.indexOf("content") >= 0 ){
+            // Serial.println(value);
+            currentContent = value;
+          }
+
+          // check if new message starts
+          if(value.indexOf("{") >= 0){
+            // Serial.println("Contains a {}");
+            isNewMessage = true;
+          }
+        }
+
+        // count messages
+        if(value.indexOf("{") >= 0){
+          totalMessageCount++;
+        }
+      }
+      json.iteratorEnd();
+
+
+      Serial.println("Next Message —————————————— ");
+      Serial.println(currentKey);
+      Serial.println(currentType);
+      Serial.println(currentContent);
+      Serial.println();
+
+      Serial.print("Total Messages: ");
+      Serial.println(totalMessageCount);        
+    }
+  } else {
+    Serial.println("FAILED");
+    Serial.println("REASON: " + firebaseData.errorReason());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }
+}
+
+void displayQueue() {
   for ( int y = 0; y < ROWS; y++ ){
     for( int x = 0; x < COLUMNS; x++ ){
       int i = x + y*COLUMNS;
@@ -190,7 +199,6 @@ void displayQueue() {
     }
   }
   flipdot.display();
-
 }
 
 void displayMatrix() {

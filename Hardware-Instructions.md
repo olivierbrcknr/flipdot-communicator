@@ -21,20 +21,26 @@ Find the `.obj` file to print out the case on a 3D printer.
 ### FlipDot Matrix
 
 [Instructions](https://github.com/ArduinoHannover/FlipDot_5x7)
+
+I managed to get them a little bit closer to each other by going without the accepting header pins and directly soldering the two PCBs together. This way I could save a couple of millimeters. 
+
+**! Watch out:** The connection to daisychain them is confusingly communicated on the schematics from hannIO, it needs to be the other way around when looking from the back. 
+
 [Video](https://www.youtube.com/watch?v=s-VXi5K4Zl0) (german)
 
 ### Pin Layout
 
-|ESP32|FlipDot|
-|-----|-------|
-|VIN  |5V     |
-|D5   |LAT    |
-|GND  |GND    |
-|D19  |SCL    |
-|D18  |SDA    |
-|-    |GND    |
-|-    |12V    |
-|-    |12V    |
+|ESP32|FlipDot|Button|Color (in my case)|
+|-----|-------|------|-------------------|
+|VIN  |5V     |-     |Orange             |
+|D5   |LAT    |-     |Green              |
+|GND  |GND    |Pin   |Gray               |
+|D19  |SCL    |-     |Yellow            |
+|D18  |SDA    |-     |Blue               |
+|-    |GND    |-     |White             |
+|-    |12V    |-     |Red                |
+|-    |12V    |-     |-                  |
+|D15  |-      |Pin   |Purple             |
 
 ## Software
 
