@@ -1,4 +1,4 @@
-#include "myCredentials.h"
+#include "credentials.h"
 #include "icons.h"
 
 #include <FlipDot_5x7.h>
@@ -43,7 +43,7 @@ int matrix[70];
 
 bool isAnimating = false;
 bool isDisplayingMessage = false;
-
+char refChar = '1';
 
 void resetMatrix( bool shouldDisplay = true );
 
@@ -148,10 +148,26 @@ void loop() {
         
         break;
       /*
-      case 'a':
+      case 'm':
         // for star animation
         break;
       */
+      case 'a':
+      
+        // display the sent array  
+        char pixelChars[70];
+        currentContent.toCharArray(pixelChars, 70);
+        for( int i = 0; i < COLUMNS * ROWS; i++ ){
+          bool pixel = false;
+          if( pixelChars[i] == refChar ){
+            pixel = true;
+          }          
+          matrix[i] = pixel;
+        }    
+        displayMatrix();
+        delay(500);
+        
+        break;
       default:
 
         Serial.println("Sorry, does not exist yet");
@@ -186,7 +202,7 @@ void checkForMessages() {
     if( firebaseData.dataType() == "json" ){
 
       FirebaseJson &json = firebaseData.jsonObject();
-
+      /**/
       Serial.println("Pretty printed JSON data:");
       String jsonStr;
       json.toString(jsonStr, true);
@@ -277,7 +293,7 @@ void displayMatrix() {
   for ( int y = 0; y < ROWS; y++ ){
     for( int x = 0; x < COLUMNS; x++ ){
       int i = x + y*COLUMNS;
-      // int k = y + x*ROWS;
+      
       bool colorPixel = matrix[i] ? true : false;
 
       flipdot.drawPixel(x, y, ( colorPixel ? FLIPDOT_YELLOW : FLIPDOT_BLACK ) );

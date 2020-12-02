@@ -90,4 +90,8 @@ let displayIcon = (setMatrix,icon) => {
   }
 }
 
-export {startupAnimation,sweepAnimation,displayQueue,displayIcon,iconAnimation}
+let displayArray = (setMatrix,arr) => {
+  setMatrix( arr, true );
+}
+
+export {startupAnimation,sweepAnimation,displayQueue,displayIcon,iconAnimation,displayArray}

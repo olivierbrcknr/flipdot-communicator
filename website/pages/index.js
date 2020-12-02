@@ -62,6 +62,20 @@ const Home = () => {
     }
     */
 
+    if( msgType === "array" ){
+      msgContent = [
+        0,0,0,0,0,0,0,0,0,0,
+        0,0,1,0,0,0,0,0,0,0,
+        0,1,0,1,0,0,0,0,0,0,
+        0,0,1,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0
+      ];
+
+      msgContent = msgContent.join('');
+    }
+
     if(msgType){
       setComState({
         ...comState,
@@ -118,11 +132,15 @@ const Home = () => {
               </StyledButton>
 
               <StyledButton onClick={ ()=>{ sendMessage('icon','cup'); } }>
-                Ask For Coffee
+                Ask For Coffee [Icon]
               </StyledButton>
 
-              <StyledButton onClick={ ()=>{ sendMessage('animation','stars'); } }>
-                Send Stars
+              <StyledButton onClick={ ()=>{ sendMessage('motion','stars'); } }>
+                Send Stars [Anim]
+              </StyledButton>
+
+              <StyledButton onClick={ ()=>{ sendMessage('array'); } }>
+                Send Array Test [Array]
               </StyledButton>
 
             </div>
