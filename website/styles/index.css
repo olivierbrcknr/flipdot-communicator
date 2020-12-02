@@ -44,6 +44,11 @@ a {
   top: 1rem;
   right: 1rem;
 }
+.InterfaceContainer-MainUIToggle {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
 
 .FlipDotContainer {
   background: var(--color-flipDot-dark);

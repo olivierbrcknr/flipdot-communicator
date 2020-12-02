@@ -30,10 +30,12 @@ const Toggle = (props) => {
     }
 
     let checkHoverFn = (bool) => {
-      if( bool ){
-        descRef.current.classList.add(styles.isHovering);
-      }else{
-        descRef.current.classList.remove(styles.isHovering);
+      if( descRef.current ){
+        if( bool ){
+          descRef.current.classList.add(styles.isHovering);
+        }else{
+          descRef.current.classList.remove(styles.isHovering);
+        }
       }
     }
     let descEl = <div ref={descRef} className={styles.ToggleDescription} key={'ToggleDescKey-'+k}>

@@ -147,6 +147,7 @@ const VirtualFlipDot = (props) => {
         alreadyDisplayedIDs: newIDs
       });
     }else{
+      setMatrix( new Array(columns*rows).fill(false) , true);
       console.log('sorry, your queue is empty 🤷‍♂️')
     }
   }

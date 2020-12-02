@@ -11,6 +11,7 @@ import VirtualFlipDot from '../components/VirtualFlipDot'
 
 import Toggle from '../components/Toggle'
 import StyledButton from '../components/StyledButton'
+import MatrixDraw from '../components/MatrixDraw'
 
 import {messagesDB,firebaseDB} from '../components/utils/firestore'
 
@@ -30,12 +31,24 @@ const typeSelectorOptions = [
     isSelectable: true,
     description: 'Sends your message just to your website instance'
   }
-]
+];
+
+const uiOptions = [
+  {
+    val: 'basic',
+    isSelectable: true,
+  },
+  {
+    val: 'draw',
+    isSelectable: true,
+  }
+];
 
 const Home = () => {
 
   const [comState,setComState] = useState({
     sendType: 2,
+    uiType: 1,
     showFlipDot: true,
     message: {
       type: 'StartUp',
@@ -63,15 +76,21 @@ const Home = () => {
     */
 
     if( msgType === "array" ){
-      msgContent = [
-        0,0,0,0,0,0,0,0,0,0,
-        0,0,1,0,0,0,0,0,0,0,
-        0,1,0,1,0,0,0,0,0,0,
-        0,0,1,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0
-      ];
+      if( msgContent === false ){
+        msgContent = [
+          0,0,0,0,0,0,0,0,0,0,
+          0,0,1,0,0,0,0,0,0,0,
+          0,1,0,1,0,0,0,0,0,0,
+          0,0,1,0,0,0,0,0,0,0,
+          0,0,0,0,0,0,0,0,0,0,
+          0,0,0,0,0,0,0,0,0,0,
+          0,0,0,0,0,0,0,0,0,0
+        ];
+      }else{
+        msgContent = msgContent.map( (i) => {
+          return ( i ? 1 : 0 );
+        });
+      }
 
       msgContent = msgContent.join('');
     }
@@ -113,7 +132,38 @@ const Home = () => {
         });
       }
     }
+
+    console.log(comState.uiType)
+
   }, [comState])
+
+  let MainUI = null;
+
+  switch( comState.uiType ){
+    case 1:
+
+      MainUI = <MatrixDraw callback={ (matrix) => { sendMessage('array',matrix); } } />;
+
+      break;
+    default:
+    case 0:
+
+      MainUI = [];
+
+      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('hello'); } }>
+                    Send "Hello World"
+                  </StyledButton>);
+      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('icon','cup'); } }>
+                    Ask For Coffee [Icon]
+                  </StyledButton>);
+      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('motion','stars'); } }>
+                    Send Stars [Anim]
+                  </StyledButton>);
+      // MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('array'); } }>
+      //               Send Array Test [Array]
+      //             </StyledButton>);
+      break;
+  }
 
   return (
     <div className={classes.join(' ')}>
@@ -127,21 +177,18 @@ const Home = () => {
           <div className="InterfaceContainer">
 
             <div className="InterfaceContainer-MainUI">
-              <StyledButton onClick={ ()=>{ sendMessage('hello'); } }>
-                Send "Hello World"
-              </StyledButton>
 
-              <StyledButton onClick={ ()=>{ sendMessage('icon','cup'); } }>
-                Ask For Coffee [Icon]
-              </StyledButton>
+              {MainUI}
 
-              <StyledButton onClick={ ()=>{ sendMessage('motion','stars'); } }>
-                Send Stars [Anim]
-              </StyledButton>
-
-              <StyledButton onClick={ ()=>{ sendMessage('array'); } }>
-                Send Array Test [Array]
-              </StyledButton>
+              <div className="InterfaceContainer-MainUIToggle">
+                <Toggle
+                  options={uiOptions}
+                  value={uiOptions[comState.uiType].val}
+                  callback={ (val) => setComState({
+                    ...comState,
+                    uiType: val
+                  }) } />
+              </div>
 
             </div>
 

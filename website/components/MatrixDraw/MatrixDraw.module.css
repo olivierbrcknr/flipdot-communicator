@@ -1,0 +1,28 @@
+.MatrixDraw {
+
+}
+
+.MatrixDrawContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  max-width: 320px;
+  margin-bottom: 1rem;
+}
+
+.MatrixDrawPixel {
+  cursor: pointer;
+  width: calc(10% - 2px);
+  margin: 1px;
+  border: solid 2px #000;
+  border-radius: 100px;
+}
+.MatrixDrawPixel:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+.MatrixDrawPixelIsOn {
+  background: var(--color-black);
+}
