@@ -16,7 +16,11 @@
 
 ### Case
 
-Find the `.obj` file to print out the case on a 3D printer.
+Find the `.stl` files in the ["case" folder](case) to print out the housing on a 3D printer. It consists of three elements:
+
+* The main case
+* The back cover
+* A button
 
 ### FlipDot Matrix
 

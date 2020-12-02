@@ -2,7 +2,7 @@
 
 ## Build your own
 
-Find the instructions to build your own hardware prototype in this file → [Hardware-Instructions.md](Hardware-Instructions.md)
+Find the instructions to build your own hardware prototype in this file → [hardware/README.md](hardware/README.md)
 
 ## The UI
 
