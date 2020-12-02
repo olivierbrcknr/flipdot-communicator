@@ -12,12 +12,12 @@ import VirtualFlipDot from '../components/VirtualFlipDot'
 import Toggle from '../components/Toggle'
 import StyledButton from '../components/StyledButton'
 
-import {messagesDB} from '../components/utils/firestore'
+import {messagesDB,firebaseDB} from '../components/utils/firestore'
 
 const typeSelectorOptions = [
   {
     val: 'physical',
-    isSelectable: false,
+    isSelectable: true,
     description: 'Sends your message to all website instances and the hardware prototype'
   },
   {
@@ -89,8 +89,8 @@ const Home = () => {
 
         let timeStamp = new Date().getTime();
 
-        messagesDB.push({
-          timeStamp: timeStamp,
+        firebaseDB.ref('flipMessages/'+prototypeVariant+'/').push({
+          _timeStamp: timeStamp,
           forType: prototypeVariant,
           isRead: false,
           ...comState.message

@@ -45,26 +45,32 @@ const VirtualFlipDot = (props) => {
 
     //messagesDB.once('value').then((snapshot) => {
     messagesDB.on('value', (snapshot) => {
-      const data = snapshot.val();
-      let newQueue = [];
-      for ( const x in data ){
-        const doc = data[x];
+      const type = snapshot.val();
 
-        // only show files that are newer than 10 minutes
-        if( doc.timeStamp ){
-          let diffTime = 60*10*1000; // 10 minutes in msec
-          let now = new Date().getTime();
-          if( doc.timeStamp > now-diffTime &&
-              vfdState.alreadyDisplayedIDs.indexOf(x) <= -1){
-            let newMsg = {
-              ...doc,
-              id: x
+      let newQueue = [];
+      for( const y in type ){
+        const data = type[y];
+
+        for ( const x in data ){
+          const doc = data[x];
+
+          // only show files that are newer than 10 minutes
+          // also physical ones should not be shown
+          if( doc._timeStamp ){
+            let diffTime = 60*10*1000; // 10 minutes in msec
+            let now = new Date().getTime();
+            if( doc._timeStamp > now-diffTime &&
+                vfdState.alreadyDisplayedIDs.indexOf(x) <= -1){
+              let newMsg = {
+                ...doc,
+                id: x
+              }
+              newQueue.push(newMsg)
+            }else if( doc.forType === 'virtual' ){
+              // delete messages that are older
+              // than 10 minutes and virtual
+              firebaseDB.ref('flipMessages/virtual/'+x).remove();
             }
-            newQueue.push(newMsg)
-          }else if( doc.forType === 'virtual' ){
-            // delete messages that are older
-            // than 10 minutes and virtual
-            firebaseDB.ref('flipMessages/'+x).remove();
           }
         }
       }
