@@ -23,6 +23,7 @@ const VirtualFlipDot = (props) => {
     },
     matrix: new Array(columns*rows).fill(false),
     isAnimating: false,
+    isDisplayingMessage: false,
     queue: [],
     alreadyDisplayedIDs: []
   });
@@ -135,7 +136,7 @@ const VirtualFlipDot = (props) => {
   let buttonClick = () => {
     console.log('button clicked');
     setButtonWasPressed(true);
-    if( vfdState.queue.length > 0 && !vfdState.isAnimating ){
+    if( vfdState.queue.length > 0 && !vfdState.isAnimating && !vfdState.isDisplayingMessage ){
       let newQueue = vfdState.queue;
       let firstMessage = newQueue.shift();
       let newIDs = vfdState.alreadyDisplayedIDs;
@@ -178,10 +179,6 @@ const VirtualFlipDot = (props) => {
       switch( type ){
         case 'hello':
           sweepAnimation(setMatrix);
-          animationStarting = true;
-          break;
-        case 'icon':
-          displayIcon( setMatrix, msg );
           animationStarting = true;
           break;
         case 'motion':

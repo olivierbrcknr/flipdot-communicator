@@ -1,5 +1,4 @@
 #include "credentials.h"
-#include "icons.h"
 
 #include <FlipDot_5x7.h>
 #include <WiFi.h>
@@ -136,15 +135,6 @@ void loop() {
         isDisplayingMessage = false;
         resetMatrix();
         displayQueue();
-        
-        break;
-      case 'i':
-        // display the icon
-        for( int i = 0; i < COLUMNS * ROWS; i++ ){
-          matrix[i] = ICON_CUP[i];  
-        }    
-        displayMatrix();
-        delay(500);
         
         break;
       /*

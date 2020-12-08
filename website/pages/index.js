@@ -13,6 +13,9 @@ import Toggle from '../components/Toggle'
 import StyledButton from '../components/StyledButton'
 import MatrixDraw from '../components/MatrixDraw'
 
+import {icons} from '../components/VirtualFlipDot/icons.js'
+
+
 import {messagesDB,firebaseDB} from '../components/utils/firestore'
 
 const typeSelectorOptions = [
@@ -48,7 +51,7 @@ const Home = () => {
 
   const [comState,setComState] = useState({
     sendType: 2,
-    uiType: 1,
+    uiType: 0,
     showFlipDot: true,
     message: {
       type: 'StartUp',
@@ -95,6 +98,12 @@ const Home = () => {
       msgContent = msgContent.join('');
     }
 
+    if( msgType === "icon" ){
+      msgType = "array";
+      msgContent = icons[msg];
+      msgContent = msgContent.join('');
+    }
+
     if(msgType){
       setComState({
         ...comState,
@@ -124,16 +133,12 @@ const Home = () => {
 
         firebaseDB.ref('flipMessages/'+prototypeVariant+'/').push({
           _timeStamp: timeStamp,
-          forType: prototypeVariant,
-          isRead: false,
           ...comState.message
         }).then( () => {
           console.log(`✉️ Sent message ${comState.message.type}`);
         });
       }
     }
-
-    console.log(comState.uiType)
 
   }, [comState])
 

@@ -1,5 +1,7 @@
 # Flip Dot Communicator — Distant Socializing
 
+Find the [project blog here](https://olivierbrcknr.github.io/mfadt-ms1-blog/).
+
 ## Build your own
 
 Find the instructions to build your own hardware prototype in this file → [hardware/README.md](hardware/README.md)
