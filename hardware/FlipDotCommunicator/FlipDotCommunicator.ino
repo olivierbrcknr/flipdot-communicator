@@ -1,4 +1,5 @@
 #include "credentials.h"
+#include "icons.h"
 
 #include <FlipDot_5x7.h>
 #include <WiFi.h>
@@ -44,6 +45,12 @@ bool isAnimating = false;
 bool isDisplayingMessage = false;
 char refChar = '1';
 
+bool isTimer = false;
+int timerCount = 0;
+int timerTotalTime = 3 * 60 * 1000;
+int timerIncrementTime = timerTotalTime / (COLUMNS*ROWS);
+int lastTimerIncrementTime = 0;
+
 void resetMatrix( bool shouldDisplay = true );
 
 void setup() {
@@ -72,6 +79,7 @@ void setup() {
   
   Firebase.setReadTimeout(firebaseData, 1000 * 60);
   Firebase.setwriteSizeLimit(firebaseData, "small");
+  firebaseData.setResponseSize(12288);
 
   Firebase.setFloatDigits(2);
   Firebase.setDoubleDigits(6);
@@ -102,7 +110,7 @@ void loop() {
   bool buttonEventHasHappened = false;
   buttonIsPressed = digitalRead(BTN) ? false : true;
 
-  if (millis() - sendDataPrevMillis > checkTime){
+  if (millis() - sendDataPrevMillis > checkTime && !isTimer){
     sendDataPrevMillis = millis();
     count++;
     prevMessageCount = totalMessageCount;
@@ -118,7 +126,7 @@ void loop() {
 
   // prevent button listener when animating
 
-  if( buttonIsPressed && !isDisplayingMessage && !isAnimating && !buttonEventHasHappened && totalMessageCount > 0 ){
+  if( buttonIsPressed && !isDisplayingMessage && !isAnimating && !buttonEventHasHappened && !isTimer && totalMessageCount > 0 ){
     buttonEventHasHappened = true;
     Serial.print("Displaying Message: ");
     Serial.println( currentType );
@@ -166,7 +174,8 @@ void loop() {
     isAnimating = false;
   }
 
-  if( buttonIsPressed && isDisplayingMessage && !isAnimating && !buttonEventHasHappened ){
+  // if is message
+  if( buttonIsPressed && isDisplayingMessage && !isAnimating && !buttonEventHasHappened && !isTimer ){
     buttonEventHasHappened = true;
     Serial.println("Displaying queue again");
     isDisplayingMessage = false;
@@ -175,6 +184,30 @@ void loop() {
     displayQueue();
     delay(500);
     isAnimating = false;
+  }
+
+  if( isTimer ){
+    displayTimer();  
+  }
+
+  // if is timer
+  if( buttonIsPressed && !buttonEventHasHappened && isTimer ){
+    buttonEventHasHappened = true;
+    Serial.println("Displaying prev state again");
+    isTimer = false;
+    timerCount = 0;
+    delay(500);
+    if( !isDisplayingMessage ){
+      displayQueue();
+    }
+  }
+
+
+  // display sorry no message
+  if( buttonIsPressed && !buttonEventHasHappened && !isTimer && !isDisplayingMessage && !isAnimating && totalMessageCount == 0 ){
+    buttonEventHasHappened = true;
+    Serial.println("Sorry, no message");
+    sorryNoMessage();
   }
 
 }
@@ -192,17 +225,20 @@ void checkForMessages() {
     if( firebaseData.dataType() == "json" ){
 
       FirebaseJson &json = firebaseData.jsonObject();
-      /**/
+      /*
       Serial.println("Pretty printed JSON data:");
       String jsonStr;
       json.toString(jsonStr, true);
       Serial.println(jsonStr);
       Serial.println(); 
+      */
       
       size_t len = json.iteratorBegin();
       String key, value = "";
       int type = 0;
       bool isNewMessage = false;
+
+      String lastKey = "";
       
       for (size_t i = 0; i < len; i++)
       {
@@ -235,9 +271,22 @@ void checkForMessages() {
           }
         }
 
+        if( i > 0 ){
+          if(key.indexOf("type") >= 0 ){
+            if( value == "timer"){
+              totalMessageCount--;
+              isTimer = true;
+              Serial.println("Start Timer");
+              // delete message of timer as it is not needed anymore
+              Firebase.deleteNode(firebaseData, path + "/" + lastKey);
+            }
+          }
+        }
+        
         // count messages
         if(value.indexOf("{") >= 0){
           totalMessageCount++;
+          lastKey = key;
         }
       }
       json.iteratorEnd();
@@ -265,6 +314,33 @@ void deleteCurrentMessage() {
   // remove one count just in case
   totalMessageCount--;
   Firebase.deleteNode(firebaseData, path + "/" + currentKey);
+}
+
+void displayTimer() {
+  if (millis() - lastTimerIncrementTime > timerIncrementTime){
+    lastTimerIncrementTime = millis();
+    timerCount++;
+  
+
+    for ( int y = 0; y < ROWS; y++ ){
+      for( int x = 0; x < COLUMNS; x++ ){
+        int i = x + y*COLUMNS;
+        int k = y + x*ROWS;
+        bool colorPixel = ( k < timerCount ) ? true : false;
+        flipdot.drawPixel(x, y, ( colorPixel ? FLIPDOT_YELLOW : FLIPDOT_BLACK ) );
+      }
+    }
+    flipdot.display();
+    
+    if( timerCount >= ROWS * COLUMNS ){
+      isTimer = false;
+      timerCount = 0;
+
+      if( !isDisplayingMessage ){
+        displayQueue();
+      }
+    }
+  }
 }
 
 void displayQueue() {
@@ -300,6 +376,15 @@ void resetMatrix( bool shouldDisplay ) {
     flipdot.fillScreen(FLIPDOT_BLACK);
     flipdot.display();
   }
+}
+
+void sorryNoMessage(){
+  for( int i = 0; i < COLUMNS * ROWS; i++ ){
+    matrix[i] = ICON_SAD[i];  
+  }    
+  displayMatrix();
+  delay(2000);
+  resetMatrix();
 }
 
 void sweepAnimation() {

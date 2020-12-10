@@ -25,7 +25,7 @@ const Toggle = (props) => {
       if( opt.isSelectable ){
         props.callback(k)
       }else{
-        console.log('sorry, does not work yet 😕')
+        console.log('sorry, currently not available')
       }
     }
 

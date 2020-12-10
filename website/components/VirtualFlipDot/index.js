@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useSound from 'use-sound';
 
 import VFDDot from '../VFDDot'
-import { startupAnimation, sweepAnimation, displayQueue, displayIcon, iconAnimation, displayArray } from './matrixAnimations.js'
+import { startupAnimation, sweepAnimation, displayQueue, displayIcon, iconAnimation, displayArray, timerAnimation, stopTimerAnimation } from './matrixAnimations.js'
 
 import styles from './VirtualFlipDot.module.css';
 
@@ -24,6 +24,7 @@ const VirtualFlipDot = (props) => {
     matrix: new Array(columns*rows).fill(false),
     isAnimating: false,
     isDisplayingMessage: false,
+    isTimer: false,
     queue: [],
     alreadyDisplayedIDs: []
   });
@@ -42,13 +43,15 @@ const VirtualFlipDot = (props) => {
 
   // init firebase listener
   useEffect( () => {
-    let newItems = false;
+
+    startupAnimation( setMatrix );
 
     //messagesDB.once('value').then((snapshot) => {
     messagesDB.on('value', (snapshot) => {
       const type = snapshot.val();
 
       let newQueue = [];
+      let timerIsStarting = false;
       for( const y in type ){
         const data = type[y];
 
@@ -62,11 +65,24 @@ const VirtualFlipDot = (props) => {
             let now = new Date().getTime();
             if( doc._timeStamp > now-diffTime &&
                 vfdState.alreadyDisplayedIDs.indexOf(x) <= -1){
-              let newMsg = {
-                ...doc,
-                id: x
+
+              if( doc.type == 'timer' ){
+                let diffTimeTimer = 60*1000;
+                if( doc._timeStamp > now-diffTimeTimer ){
+                  console.log('start Timer ⏱');
+                  timerIsStarting = doc._timeStamp;
+                  // delete this entry after two secons
+                  setTimeout(()=>{
+                    firebaseDB.ref('flipMessages/virtual/'+x).remove();
+                  },2000);
+                }
+              }else{
+                let newMsg = {
+                  ...doc,
+                  id: x
+                }
+                newQueue.push(newMsg)
               }
-              newQueue.push(newMsg)
             }else if( doc.forType === 'virtual' ){
               // delete messages that are older
               // than 10 minutes and virtual
@@ -78,10 +94,9 @@ const VirtualFlipDot = (props) => {
 
       setVfdState({
         ...vfdState,
-        queue: newQueue
+        queue: newQueue,
+        isTimer: timerIsStarting
       })
-
-      newItems = true;
     });
 
     // better way to only listen to new elements
@@ -102,6 +117,13 @@ const VirtualFlipDot = (props) => {
 
   useEffect(()=>{
     console.log('new message displaying');
+    // log array for arduino use
+    // let msgTest = vfdState.message.content
+    // if( typeof msgTest === "string" ){
+    //   let chars = msgTest.split('');
+    //   chars = chars.map( i => parseInt(i) )
+    //   console.log(chars)
+    // }
     playAnimation( vfdState.message.type, vfdState.message.content );
   },[vfdState.message])
 
@@ -124,6 +146,15 @@ const VirtualFlipDot = (props) => {
     flipSound();
   },[vfdState.matrix])
 
+  useEffect(()=>{
+
+    console.log('isTimer',vfdState.isTimer)
+    if( vfdState.isTimer ){
+      timerAnimation(setMatrix);
+    }
+
+  },[vfdState.isTimer])
+
   let classes = [styles.VirtualFlipDot];
 
   const dotSize = 30;
@@ -136,7 +167,14 @@ const VirtualFlipDot = (props) => {
   let buttonClick = () => {
     console.log('button clicked');
     setButtonWasPressed(true);
-    if( vfdState.queue.length > 0 && !vfdState.isAnimating && !vfdState.isDisplayingMessage ){
+
+    if( vfdState.isTimer ){
+      stopTimerAnimation( setMatrix );
+      setVfdState({
+        ...vfdState,
+        isTimer: false
+      });
+    } else if( vfdState.queue.length > 0 && !vfdState.isAnimating && !vfdState.isDisplayingMessage ){
       let newQueue = vfdState.queue;
       let firstMessage = newQueue.shift();
       let newIDs = vfdState.alreadyDisplayedIDs;
@@ -148,8 +186,11 @@ const VirtualFlipDot = (props) => {
         alreadyDisplayedIDs: newIDs
       });
     }else{
-      setMatrix( new Array(columns*rows).fill(false) , true);
       console.log('sorry, your queue is empty 🤷‍♂️')
+      displayIcon( setMatrix, "sad" );
+      setTimeout( () => {
+        setMatrix( new Array(columns*rows).fill(false) , true);
+      }, 2000);
     }
   }
 
@@ -163,7 +204,6 @@ const VirtualFlipDot = (props) => {
     }
     if( isDone ){
       isAnimating = false;
-
     }
 
     setVfdState({
@@ -190,6 +230,13 @@ const VirtualFlipDot = (props) => {
           arr = arr.map( (x) => {return parseInt(x)} );
           displayArray( setMatrix, arr );
           animationStarting = true;
+          break;
+        case 'timer':
+          console.log('yap')
+          setVfdState({
+            ...vfdState,
+            isTimer: true
+          });
           break;
       }
     }

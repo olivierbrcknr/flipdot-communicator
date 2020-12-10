@@ -18,7 +18,7 @@ import {icons} from '../components/VirtualFlipDot/icons.js'
 
 import {messagesDB,firebaseDB} from '../components/utils/firestore'
 
-const typeSelectorOptions = [
+let typeSelectorOptions = [
   {
     val: 'physical',
     isSelectable: true,
@@ -66,17 +66,6 @@ const Home = () => {
 
     let msgType = type; //false;
     let msgContent = (msg ? msg : false);
-
-    /*
-    switch (type){
-      case 'hello':
-        msgType = 'hello';
-        break;
-      default:
-        console.log('Sorry, I did not understand that');
-        break;
-    }
-    */
 
     if( msgType === "array" ){
       if( msgContent === false ){
@@ -140,7 +129,26 @@ const Home = () => {
       }
     }
 
-  }, [comState])
+  }, [comState]);
+
+  useEffect( () => {
+    // prevent selection of 'physical if too many messages'
+    firebaseDB.ref('flipMessages/physical').on('value', (snapshot) => {
+      let size = snapshot.numChildren();
+      // console.log( 'number of physical messages', size );
+      if( size > 70){
+        console.log('sorry, there are too many messages on the device already');
+        typeSelectorOptions[0].isSelectable = false;
+        setComState({
+          ...comState,
+          sendType: 2
+        });
+      }else{
+        typeSelectorOptions[0].isSelectable = true;
+        setComState(comState);
+      }
+    });
+  }, [] );
 
   let MainUI = null;
 
@@ -163,6 +171,9 @@ const Home = () => {
                   </StyledButton>);
       MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('motion','stars'); } }>
                     Send Stars [Anim]
+                  </StyledButton>);
+      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('timer'); } }>
+                    Start Timer [3 min]
                   </StyledButton>);
       // MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('array'); } }>
       //               Send Array Test [Array]
