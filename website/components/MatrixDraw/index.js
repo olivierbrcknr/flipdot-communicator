@@ -10,6 +10,8 @@ const MatrixDraw = (props) => {
 
   const [matrixState,setMatrixState] = useState( new Array(columns*rows).fill(false) );
   const [isUpdated,setIsUpdated] = useState(false);
+  const [mouseIsDown,setMouseIsDown] = useState(false);
+  const [currentColor,setCurrentColor] = useState(true);
 
   let classes = [styles.MatrixDraw];
 
@@ -17,9 +19,13 @@ const MatrixDraw = (props) => {
     setIsUpdated(false);
   }, [matrixState,isUpdated])
 
-  let togglePixel = (i) => {
+  let togglePixel = (i, isColor) => {
     let dummyMatrix = matrixState;
-    dummyMatrix[i] = !dummyMatrix[i];
+    if( isColor ){
+      dummyMatrix[i] = currentColor;
+    }else{
+      dummyMatrix[i] = !dummyMatrix[i];
+    }
     setMatrixState(dummyMatrix);
     setIsUpdated(true);
   }
@@ -36,8 +42,15 @@ const MatrixDraw = (props) => {
       <div
         className={pxClasses.join(' ')}
         key={'Pixel-'+k}
-        onClick={ () => { togglePixel(k) } }>
-
+        onMouseDown={ () => {
+          togglePixel(k)
+          setCurrentColor( !px )
+        } }
+        onMouseEnter={ () => {
+          if( mouseIsDown ){
+            togglePixel(k, true);
+          }
+        } }>
       </div>
     )
   });
@@ -45,7 +58,11 @@ const MatrixDraw = (props) => {
   return(
     <div className={classes.join(' ')}>
 
-      <div className={styles.MatrixDrawContainer}>
+      <div
+        className={styles.MatrixDrawContainer}
+        onMouseDown={ () => { setMouseIsDown(true) } }
+        onMouseUp={ () => { setMouseIsDown(false) } }
+        onMouseLeave={ () => { setMouseIsDown(false) } }>
         {pixels}
       </div>
 
