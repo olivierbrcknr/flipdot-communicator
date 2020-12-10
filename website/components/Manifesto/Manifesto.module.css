@@ -1,0 +1,64 @@
+.Manifesto {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 8;
+  background: var(--color-black);
+  color: var(--color-white);
+  padding: 20px;
+}
+
+.ManifestoText {
+  max-width: 600px;
+  font-size: 18px;
+  line-height: 1.5;
+  user-select: text;
+}
+
+.Manifesto::selection {
+  color: var(--color-black);
+  background-color: var(--color-white);
+}
+
+.ManifestoText p + p {
+  margin-top: 1rem;
+}
+.ManifestoText a {
+  text-decoration: none;
+  border-bottom: solid 1px var(--color-white);
+}
+.ManifestoText a:hover {
+  border: none;
+}
+
+.strikeThrough {
+  background-image: linear-gradient(transparent 55%, var(--color-white) 55%, var(--color-white) calc(55% + 2px), transparent calc(55% + 2px));
+}
+
+.Title{
+  position: absolute;
+  left: calc(100vw - 20px);
+  height: 10px;
+  top: calc( 100vh - 10px );
+  transform: rotate(-90deg);
+  width: calc( 100vh - 10px );
+  text-align: left;
+  transform-origin: top left;
+  font-size: 13px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .Manifesto {
+    padding: 10px;
+    padding-right: 30px;
+  }
+  .ManifestoText {
+    font-size: 14px;
+  }
+  .Title{
+    font-size: 11px;
+  }
+}

@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // Next
 import Link from 'next/link'
@@ -7,178 +7,35 @@ import Link from 'next/link'
 // Components
 import Head from '../components/head'
 import Footer from '../components/footer'
-import VirtualFlipDot from '../components/VirtualFlipDot'
 
-import Toggle from '../components/Toggle'
-import StyledButton from '../components/StyledButton'
-import MatrixDraw from '../components/MatrixDraw'
-
-import {icons} from '../components/VirtualFlipDot/icons.js'
-
-
-import {messagesDB,firebaseDB} from '../components/utils/firestore'
-
-let typeSelectorOptions = [
-  {
-    val: 'physical',
-    isSelectable: true,
-    description: 'Sends your message to all website instances and the hardware prototype'
-  },
-  {
-    val: 'virtual',
-    isSelectable: true,
-    description: 'Sends your message to all website instances'
-  },
-  {
-    val: 'test',
-    isSelectable: true,
-    description: 'Sends your message just to your website instance'
-  }
-];
-
-const uiOptions = [
-  {
-    val: 'basic',
-    isSelectable: true,
-  },
-  {
-    val: 'draw',
-    isSelectable: true,
-  }
-];
+import Manifesto from '../components/Manifesto'
+import VFDUI from '../components/VFDUI'
 
 const Home = () => {
 
-  const [comState,setComState] = useState({
-    sendType: 2,
-    uiType: 0,
-    showFlipDot: true,
-    message: {
-      type: 'StartUp',
-      content: false,
-    },
-    isNewMessage: false
-  });
-
   let classes = [];
 
-  let sendMessage = (type,msg) => {
+  const [winWidth,setWinWidth] = useState(0);
+  const [isManifesto,setIsManifesto] = useState(false);
 
-    let msgType = type; //false;
-    let msgContent = (msg ? msg : false);
-
-    if( msgType === "array" ){
-      if( msgContent === false ){
-        msgContent = [
-          0,0,0,0,0,0,0,0,0,0,
-          0,0,1,0,0,0,0,0,0,0,
-          0,1,0,1,0,0,0,0,0,0,
-          0,0,1,0,0,0,0,0,0,0,
-          0,0,0,0,0,0,0,0,0,0,
-          0,0,0,0,0,0,0,0,0,0,
-          0,0,0,0,0,0,0,0,0,0
-        ];
-      }else{
-        msgContent = msgContent.map( (i) => {
-          return ( i ? 1 : 0 );
-        });
-      }
-
-      msgContent = msgContent.join('');
+  useEffect( ()=>{
+    let updateWindowDimensions = () => {
+      let windowWidth = window.innerWidth;
+      setWinWidth(windowWidth)
     }
+    updateWindowDimensions();
+    window.addEventListener('resize', updateWindowDimensions);
 
-    if( msgType === "icon" ){
-      msgType = "array";
-      msgContent = icons[msg];
-      msgContent = msgContent.join('');
-    }
+    return( ()=>{
+      window.removeEventListener('resize', updateWindowDimensions);
+    })
+  }, []);
 
-    if(msgType){
-      setComState({
-        ...comState,
-        message: {
-          type: msgType,
-          content: msgContent
-        },
-        isNewMessage: true
-      })
-    }
-  }
+  let manifestoDisplay = null;
 
-  useEffect(()=>{
-    if( comState.isNewMessage ){
-      // set isNewMessage to false again
-      setComState({
-        ...comState,
-        isNewMessage: false
-      });
-
-      let prototypeVariant = typeSelectorOptions[comState.sendType].val;
-
-      // send message to DB only if needs to be send
-      if( prototypeVariant === 'virtual' || prototypeVariant === 'physical' ){
-
-        let timeStamp = new Date().getTime();
-
-        firebaseDB.ref('flipMessages/'+prototypeVariant+'/').push({
-          _timeStamp: timeStamp,
-          ...comState.message
-        }).then( () => {
-          console.log(`✉️ Sent message ${comState.message.type}`);
-        });
-      }
-    }
-
-  }, [comState]);
-
-  useEffect( () => {
-    // prevent selection of 'physical if too many messages'
-    firebaseDB.ref('flipMessages/physical').on('value', (snapshot) => {
-      let size = snapshot.numChildren();
-      // console.log( 'number of physical messages', size );
-      if( size > 70){
-        console.log('sorry, there are too many messages on the device already');
-        typeSelectorOptions[0].isSelectable = false;
-        setComState({
-          ...comState,
-          sendType: 2
-        });
-      }else{
-        typeSelectorOptions[0].isSelectable = true;
-        setComState(comState);
-      }
-    });
-  }, [] );
-
-  let MainUI = null;
-
-  switch( comState.uiType ){
-    case 1:
-
-      MainUI = <MatrixDraw callback={ (matrix) => { sendMessage('array',matrix); } } />;
-
-      break;
-    default:
-    case 0:
-
-      MainUI = [];
-
-      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('hello'); } }>
-                    Send "Hello World"
-                  </StyledButton>);
-      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('icon','cup'); } }>
-                    Ask For Coffee [Icon]
-                  </StyledButton>);
-      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('motion','stars'); } }>
-                    Send Stars [Anim]
-                  </StyledButton>);
-      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('timer'); } }>
-                    Start Timer [3 min]
-                  </StyledButton>);
-      // MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('array'); } }>
-      //               Send Array Test [Array]
-      //             </StyledButton>);
-      break;
+  if(isManifesto){
+    classes.push('isDisplayingManifesto');
+    manifestoDisplay = <Manifesto />;
   }
 
   return (
@@ -189,45 +46,16 @@ const Home = () => {
 
       <div id="wrapper">
 
-        <div id="mainContent">
-          <div className="InterfaceContainer">
+        <VFDUI winWidth={winWidth} />
 
-            <div className="InterfaceContainer-MainUI">
+        {manifestoDisplay}
 
-              {MainUI}
+        <div className="PageTitle">
+          Flip Dot Communicator ———— Distant Socializing
+        </div>
 
-              <div className="InterfaceContainer-MainUIToggle">
-                <Toggle
-                  options={uiOptions}
-                  value={uiOptions[comState.uiType].val}
-                  callback={ (val) => setComState({
-                    ...comState,
-                    uiType: val
-                  }) } />
-              </div>
-
-            </div>
-
-            <div className="InterfaceContainer-TypeToggle">
-              <Toggle
-                options={typeSelectorOptions}
-                value={typeSelectorOptions[comState.sendType].val}
-                displayDescriptions
-                callback={ (val) => setComState({
-                  ...comState,
-                  sendType: val
-                }) } />
-            </div>
-
-            <div className="InterfaceContainer-Title">
-              Flip Dot Communicator ———— Distant Socializing
-            </div>
-
-          </div>
-          <div className="FlipDotContainer">
-            <VirtualFlipDot
-              comState={comState} />
-          </div>
+        <div className="ToggleManifesto" onClick={ ()=>{ setIsManifesto(!isManifesto) } }>
+          { isManifesto ? 'Hide' : 'Manifesto' }
         </div>
 
         <Footer />

@@ -1,9 +1,14 @@
 footer.Footer {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
   font-size: 9px;
   color: var(--color-text-disabled);
+  position: absolute;
+  left: calc(100vw - 20px);
+  height: 10px;
+  top: calc( 100vh - 10px );
+  transform: rotate(-90deg);
+  width: calc( 100vh - 10px );
+  text-align: left;
+  transform-origin: top left;
 }
 
 footer.Footer a:hover {
