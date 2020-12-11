@@ -8,6 +8,9 @@
   background: var(--color-black);
   color: var(--color-white);
   padding: 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-bottom: 100px;
 }
 
 .ManifestoText {
@@ -33,12 +36,26 @@
   border: none;
 }
 
+.ManifestoImageContainer {
+  width: calc( 100vw - 50px);
+  margin: 50px 0;
+  display: flex;
+  justify-content: space-between;
+  height: 35vw;
+  align-items: center;
+}
+.ManifestoImageContainer img {
+  width: calc(27.5% - 10px);
+  height: auto;
+  flex: 0;
+}
+
 .strikeThrough {
   background-image: linear-gradient(transparent 55%, var(--color-white) 55%, var(--color-white) calc(55% + 2px), transparent calc(55% + 2px));
 }
 
 .Title{
-  position: absolute;
+  position: fixed;
   left: calc(100vw - 20px);
   height: 10px;
   top: calc( 100vh - 10px );
@@ -54,9 +71,19 @@
   .Manifesto {
     padding: 10px;
     padding-right: 30px;
+    padding-bottom: 50px;
   }
   .ManifestoText {
     font-size: 14px;
+  }
+  .ManifestoImageContainer {
+    margin: 30px 0;
+    flex-direction: column;
+    height: auto;
+  }
+  .ManifestoImageContainer img {
+    width: 100% !important;
+    margin-bottom: 10px;
   }
   .Title{
     font-size: 11px;

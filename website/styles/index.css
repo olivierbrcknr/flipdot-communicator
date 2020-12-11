@@ -34,8 +34,8 @@ a {
 
 .ToggleManifesto {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 20px;
+  left: 20px;
   cursor: pointer;
   z-index: 10;
   font-size: 18px;
@@ -43,4 +43,12 @@ a {
 
 .isDisplayingManifesto .ToggleManifesto {
   color: var(--color-white);
+}
+
+
+@media only screen and (max-width: 600px) {
+  .ToggleManifesto {
+    bottom: 10px;
+    left: 10px;
+  }
 }

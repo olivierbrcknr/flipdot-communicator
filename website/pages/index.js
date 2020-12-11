@@ -55,7 +55,7 @@ const Home = () => {
         </div>
 
         <div className="ToggleManifesto" onClick={ ()=>{ setIsManifesto(!isManifesto) } }>
-          { isManifesto ? 'Hide' : 'Manifesto' }
+          { isManifesto ? 'Hide' : 'About' }
         </div>
 
         <Footer />
