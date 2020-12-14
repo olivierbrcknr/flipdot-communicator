@@ -1,4 +1,4 @@
-#include "myCredentials.h"
+#include "credentials.h"
 #include "icons.h"
 
 #include <FlipDot_5x7.h>
