@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 import styles from './MatrixDraw.module.css';
 import StyledButton from '../StyledButton'
@@ -8,12 +8,20 @@ const rows = 7;
 
 const MatrixDraw = (props) => {
 
+  const refMatrix = useRef(null);
   const [matrixState,setMatrixState] = useState( new Array(columns*rows).fill(false) );
   const [isUpdated,setIsUpdated] = useState(false);
   const [mouseIsDown,setMouseIsDown] = useState(false);
   const [currentColor,setCurrentColor] = useState(true);
 
   let classes = [styles.MatrixDraw];
+
+  useEffect( ()=>{
+    function preventBehavior(e) {
+      e.preventDefault();
+    };
+    refMatrix.current.addEventListener("touchmove", preventBehavior, {passive: false});
+  }, [] )
 
   useEffect( ()=>{
     setIsUpdated(false);
@@ -56,7 +64,7 @@ const MatrixDraw = (props) => {
   });
 
   return(
-    <div className={classes.join(' ')}>
+    <div ref={refMatrix} className={classes.join(' ')}>
 
       <div
         className={styles.MatrixDrawContainer}

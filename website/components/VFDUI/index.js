@@ -61,22 +61,9 @@ const VFDUI = (props) => {
     let msgContent = (msg ? msg : false);
 
     if( msgType === "array" ){
-      if( msgContent === false ){
-        msgContent = [
-          0,0,0,0,0,0,0,0,0,0,
-          0,0,1,0,0,0,0,0,0,0,
-          0,1,0,1,0,0,0,0,0,0,
-          0,0,1,0,0,0,0,0,0,0,
-          0,0,0,0,0,0,0,0,0,0,
-          0,0,0,0,0,0,0,0,0,0,
-          0,0,0,0,0,0,0,0,0,0
-        ];
-      }else{
-        msgContent = msgContent.map( (i) => {
-          return ( i ? 1 : 0 );
-        });
-      }
-
+      msgContent = msgContent.map( (i) => {
+        return ( i ? 1 : 0 );
+      });
       msgContent = msgContent.join('');
     }
 
@@ -138,11 +125,16 @@ const VFDUI = (props) => {
         });
       }else{
         typeSelectorOptions[0].isSelectable = true;
-        setComState(comState);
+        // setComState(comState);
       }
     });
 
   }, [] );
+
+  useEffect( () => {
+    console.log('Send type changed to',typeSelectorOptions[comState.sendType].val)
+  }, [comState.sendType] );
+
 
   let MainUI = null;
 
@@ -157,16 +149,16 @@ const VFDUI = (props) => {
 
       MainUI = [];
 
-      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('hello'); } }>
+      MainUI.push(<StyledButton key="UIbtn01" onClick={ ()=>{ sendMessage('hello'); } }>
                     Send "Hello World"
                   </StyledButton>);
-      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('icon','cup'); } }>
+      MainUI.push(<StyledButton key="UIbtn02" onClick={ ()=>{ sendMessage('icon','cup'); } }>
                     Ask For Coffee [Icon]
                   </StyledButton>);
-      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('motion','stars'); } }>
+      MainUI.push(<StyledButton key="UIbtn03" onClick={ ()=>{ sendMessage('motion','stars'); } }>
                     Send Stars [Anim]
                   </StyledButton>);
-      MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('timer'); } }>
+      MainUI.push(<StyledButton key="UIbtn04" onClick={ ()=>{ sendMessage('timer'); } }>
                     Start Timer [3 min]
                   </StyledButton>);
       // MainUI.push(<StyledButton onClick={ ()=>{ sendMessage('array'); } }>

@@ -16,6 +16,8 @@ const rows = 7;
 
 const VirtualFlipDot = (props) => {
 
+  const [queue,setQueue] = useState([]);
+
   const [vfdState, setVfdState] = useState({
     message: {
       type: 'StartUp',
@@ -25,7 +27,6 @@ const VirtualFlipDot = (props) => {
     isAnimating: false,
     isDisplayingMessage: false,
     isTimer: false,
-    queue: [],
     alreadyDisplayedIDs: []
   });
 
@@ -67,7 +68,7 @@ const VirtualFlipDot = (props) => {
                 vfdState.alreadyDisplayedIDs.indexOf(x) <= -1){
 
               if( doc.type == 'timer' ){
-                let diffTimeTimer = 60*1000;
+                let diffTimeTimer = 5*1000;
                 if( doc._timeStamp > now-diffTimeTimer ){
                   console.log('start Timer ⏱');
                   timerIsStarting = doc._timeStamp;
@@ -92,11 +93,12 @@ const VirtualFlipDot = (props) => {
         }
       }
 
-      setVfdState({
-        ...vfdState,
-        queue: newQueue,
-        isTimer: timerIsStarting
-      })
+      setQueue(newQueue)
+
+      if( timerIsStarting ){
+        startNewTimer();
+      }
+
     });
 
     // better way to only listen to new elements
@@ -128,32 +130,43 @@ const VirtualFlipDot = (props) => {
   },[vfdState.message])
 
   useEffect(() => {
-    console.log('queue changed: ',vfdState.queue.length);
+    console.log('queue changed: ',queue.length);
     if( !vfdState.isAnimating ){
-      let newMatrix = displayQueue(vfdState.queue.length);
+      let newMatrix = displayQueue(queue.length);
       setVfdState({
         ...vfdState,
         matrix: newMatrix, // display number of messages
         message: { // delete currently displayed message
           type: null,
           content: null
-        }
+        },
+        isDisplayingMessage: false,
       });
     }
-  },[vfdState.queue,vfdState.isAnimating])
+  },[queue,vfdState.isAnimating])
 
   useEffect(()=>{
     flipSound();
   },[vfdState.matrix])
 
   useEffect(()=>{
-
     console.log('isTimer',vfdState.isTimer)
     if( vfdState.isTimer ){
       timerAnimation(setMatrix);
     }
-
   },[vfdState.isTimer])
+
+  let startNewTimer = () => {
+    if( vfdState.isTimer ){
+      console.log('Timer is already running')
+    }else{
+      console.log('Start new timer')
+      setVfdState({
+        ...vfdState,
+        isTimer: true
+      });
+    }
+  }
 
   let classes = [styles.VirtualFlipDot];
 
@@ -170,27 +183,44 @@ const VirtualFlipDot = (props) => {
 
     if( vfdState.isTimer ){
       stopTimerAnimation( setMatrix );
+      let newMatrix = displayQueue(queue.length);
       setVfdState({
         ...vfdState,
-        isTimer: false
+        matrix: newMatrix,
+        isTimer: false,
+        isAnimating: false
       });
-    } else if( vfdState.queue.length > 0 && !vfdState.isAnimating && !vfdState.isDisplayingMessage ){
-      let newQueue = vfdState.queue;
+    } else if( vfdState.isDisplayingMessage ){
+
+      let newMatrix = displayQueue(queue.length);
+      setVfdState({
+        ...vfdState,
+        matrix: newMatrix, // display number of messages
+        message: { // delete currently displayed message
+          type: null,
+          content: null
+        },
+        isDisplayingMessage: false
+      });
+
+    } else if( queue.length > 0 && !vfdState.isAnimating && !vfdState.isDisplayingMessage ){
+      let newQueue = queue;
       let firstMessage = newQueue.shift();
       let newIDs = vfdState.alreadyDisplayedIDs;
       newIDs.push(firstMessage.id);
       setVfdState({
         ...vfdState,
         message: firstMessage,
-        queue: newQueue,
-        alreadyDisplayedIDs: newIDs
+        alreadyDisplayedIDs: newIDs,
+        isDisplayingMessage: true
       });
+      setQueue(newQueue);
     }else{
       console.log('sorry, your queue is empty 🤷‍♂️')
       displayIcon( setMatrix, "sad" );
       setTimeout( () => {
         setMatrix( new Array(columns*rows).fill(false) , true);
-      }, 2000);
+      }, 1500);
     }
   }
 
@@ -209,7 +239,7 @@ const VirtualFlipDot = (props) => {
     setVfdState({
       ...vfdState,
       matrix: newMatrix,
-      isAnimating: isAnimating
+      isAnimating: isAnimating,
     });
   }
 
@@ -232,7 +262,6 @@ const VirtualFlipDot = (props) => {
           animationStarting = true;
           break;
         case 'timer':
-          console.log('yap')
           setVfdState({
             ...vfdState,
             isTimer: true

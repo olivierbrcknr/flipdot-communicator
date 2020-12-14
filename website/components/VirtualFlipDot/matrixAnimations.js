@@ -102,7 +102,7 @@ let iconAnimation = ( setMatrix, icon ) => {
     matrix = animations[icon][animFrame];
 
     if( animFrame < maxFrames  ){
-      setTimeout( printFrame, 100 );
+      setTimeout( printFrame, 130 );
     }else{
       matrix = new Array(columns*rows).fill(false);
       isDone = true;

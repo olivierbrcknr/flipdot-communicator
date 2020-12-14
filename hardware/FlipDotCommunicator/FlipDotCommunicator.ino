@@ -1,4 +1,4 @@
-#include "credentials.h"
+#include "myCredentials.h"
 #include "icons.h"
 
 #include <FlipDot_5x7.h>
@@ -145,11 +145,14 @@ void loop() {
         displayQueue();
         
         break;
-      /*
+    
       case 'm':
-        // for star animation
+        // star animation
+        starAnimation();
+        isDisplayingMessage = false;
+        displayQueue();
+        
         break;
-      */
       case 'a':
       
         // display the sent array  
@@ -401,4 +404,38 @@ void sweepAnimation() {
   delay(100);
   resetMatrix();
   delay(500);
+}
+
+void starAnimation(){
+
+  int StarAnimDelay = 130;
+
+  for( int i = 0; i < COLUMNS * ROWS; i++ ){
+    matrix[i] = ANIM_STAR_1[i];  
+  }    
+  displayMatrix();
+  delay(StarAnimDelay);
+  for( int i = 0; i < COLUMNS * ROWS; i++ ){
+    matrix[i] = ANIM_STAR_2[i];  
+  }    
+  displayMatrix();
+  delay(StarAnimDelay);
+  for( int i = 0; i < COLUMNS * ROWS; i++ ){
+    matrix[i] = ANIM_STAR_3[i];  
+  }    
+  displayMatrix();
+  delay(StarAnimDelay);
+  for( int i = 0; i < COLUMNS * ROWS; i++ ){
+    matrix[i] = ANIM_STAR_4[i];  
+  }    
+  displayMatrix();
+  delay(StarAnimDelay);
+  for( int i = 0; i < COLUMNS * ROWS; i++ ){
+    matrix[i] = ANIM_STAR_5[i];  
+  }    
+  displayMatrix();
+  delay(StarAnimDelay);
+  resetMatrix();
+  delay(500);
+ 
 }
