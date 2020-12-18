@@ -60,9 +60,9 @@ The software for the ESP32 is built using the [Arduino IDE](https://www.arduino.
 
 You will need to install these libraries for the code to work:
 
-* [ESP32](espressif/arduino-esp32)
-* [FlipDot](ArduinoHannover/FlipDot_5x7)
-* [Firebase ESP32](mobizt/Firebase-ESP32)
+* [ESP32](https://github.com/espressif/arduino-esp32)
+* [FlipDot](https://github.com/ArduinoHannover/FlipDot_5x7)
+* [Firebase ESP32](https://github.com/mobizt/Firebase-ESP32)
 
 #### Adjustments
 
@@ -98,4 +98,4 @@ Next, open the [`.ino`](hardware/FlipDotCommunicator/FlipDotCommunicator.ino) fi
 
 If you are not sure where to find the Firebase credentials, this [stackoverflow question](https://stackoverflow.com/questions/37418372/firebase-where-is-my-account-secret-in-the-new-console) will help you.
 
-Finallym flash it onto the board. Now you should be all set up!
+Finally flash it onto the board. Now you should be all set up!

@@ -10,7 +10,7 @@ A little "hello world" example, sending one simple interaction to the communicat
 
 #### Ask For Coffee [icon]
 
-Sends over an icon that is displayed on the other matrix. A little icon could help to communicate similarly as emojis do. The icons are created in [this file](website/components/VirtualFlipDot/icons.js) in form of arrays within an object:
+Sends over an icon that is displayed on the other matrix. A little icon could help to communicate similarly as emojis do. The icons are created in [this file](components/VirtualFlipDot/icons.js) in form of arrays within an object:
 
 ```js
 const icons = {
@@ -43,7 +43,7 @@ The draw component allows to send individual messages. They are translated into 
 
 ### Virtual Flip Dot
 
-The virtual *FlipDot Communicator* (on the right) should behave exactly like [the physical one](hardware/README.md). All interaction elements are the same. The only actual input is the small button at the bottom right.
+The virtual *FlipDot Communicator* (on the right) should behave exactly like [the physical one](../hardware). All interaction elements are the same. The only actual input is the small button at the bottom right.
 
 ## Development
 

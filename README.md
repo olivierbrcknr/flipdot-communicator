@@ -18,7 +18,7 @@ Find the detailed [project blog here](https://olivierbrcknr.github.io/mfadt-ms1-
 
 ## Hardware
 
-This project is built to use [flip-dots](ndsh/flipdots). The little communicator is a hardware piece that receives abstract messages. Here are some examples of how it works:
+This project is built to use [flip-dots](https://github.com/ndsh/flipdots). The little communicator is a hardware piece that receives abstract messages. Here are some examples of how it works:
 
 #### Read A Message
 ![Read a message](docs/Read.gif)
@@ -37,8 +37,8 @@ If a timer is sent, the current message is saved and the timer starts to run. Fr
 
 ## Build your own
 
-Find the instructions to build your own hardware prototype in this file → [hardware/README.md](hardware/README.md)
+Find the instructions to build your own hardware prototype in this file → [hardware/README.md](hardware)
 
 ## Website
 
-To send messages, [this website](https://flipdot.vercel.app/) acts as the input device. It allows for granular messaging and will be developed further. Find more about it in this file → [website/README.md](website/README.md)
+To send messages, [this website](https://flipdot.vercel.app/) acts as the input device. It allows for granular messaging and will be developed further. Find more about it in this file → [website/README.md](website)
