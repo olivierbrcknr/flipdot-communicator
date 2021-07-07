@@ -1,6 +1,6 @@
 ![FlipDot Communicator](docs/hero.jpg)
 
-# FlipDot Communicator — Distant Socializing
+# FlipDot Communicator — Distant Socializing
 
 The *FlipDotCommunicator* is a device for ~~social distancing~~ [distant socializing](https://zirkus-zirkus.com/products/not-alone-bandana).
 

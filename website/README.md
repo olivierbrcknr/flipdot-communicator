@@ -37,7 +37,7 @@ The draw component allows to send individual messages. They are translated into 
 
 ### Selection Toggle
 
-- *physical* – Sends your message to all website instances and the hardware prototype
+- *physical* – Sends your message to all website instances and the hardware prototype
 - *virtual* — Sends your message to all website instances
 - *test* — Sends your message just to your website instance
 
@@ -47,7 +47,7 @@ The virtual *FlipDot Communicator* (on the right) should behave exactly like [th
 
 ## Development
 
-![Architecture](docs/SoftwareArchitecture.svg)
+![Architecture](../docs/SoftwareArchitecture.svg)
 
 ### Setup
 

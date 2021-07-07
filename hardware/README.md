@@ -34,7 +34,7 @@ I managed to get the two PCBs a little bit closer to each other by going without
 
 ### Wiring Schematics
 
-![Wiring](docs/wiring.svg)
+![Wiring](../docs/wiring.svg)
 
 |ESP32|FlipDot|Button|Color Reference|
 |-----|-------|------|---------------|
@@ -50,7 +50,7 @@ I managed to get the two PCBs a little bit closer to each other by going without
 
 ### Final Assembly
 
-![Case open](docs/caseOpen.jpg)
+![Case open](../docs/caseOpen.jpg)
 
 ## Software
 
@@ -71,16 +71,16 @@ I needed to change the pin layout in the [FlipDot_5x7.h](https://github.com/Ardu
 ```cpp
 #ifndef ESP8266
 class FlipDot_5x7_Slave : public FlipDot_5x7 {
-	private:
-		const uint8_t
-			addr1	= 32,
-			addr2	= 33,
-			addr3	= 34,
-			addr4	= 35;
-	public:
-		FlipDot_5x7_Slave(boolean invert) : FlipDot_5x7(1,1,invert) {}
-		void begin(void);
-		void receiveEvent(int);
+  private:
+    const uint8_t
+      addr1 = 32,
+      addr2 = 33,
+      addr3 = 34,
+      addr4 = 35;
+  public:
+    FlipDot_5x7_Slave(boolean invert) : FlipDot_5x7(1,1,invert) {}
+    void begin(void);
+    void receiveEvent(int);
 };
 #endif /* ESP8266 */
 ```
